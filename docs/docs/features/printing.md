@@ -146,6 +146,21 @@ footer reads e.g. "1-25 of 100 loaded" to make clear the count is partial.
 ![Print statistics showing total print time and filament usage](/assets/images/print_stats.png)
 ![Re-print dialog with option to re-start a previous job](/assets/images/reprint.png)
 
+### Print Activity Calendar
+
+The optional **Print activity** dashboard card shows the last 53 weeks of
+Moonraker history as a calendar heat map. More intense cell colors represent more print
+time on that day. Hover a cell to see its job count, print time, result summary,
+and filament usage. Records marked as `interrupted` are excluded to match
+Moonraker's job totals.
+
+Open the dashboard layout editor to enable and position the card. Fluidd loads
+the extended history only while the card is enabled.
+
+![Print activity calendar with demonstration data](/assets/images/print-activity-calendar.png)
+
+_The screenshot uses synthetic demonstration data to illustrate activity over a year._
+
 ## Extrusion Indicator
 
 The Toolhead card header shows the extruder's current direction of travel: a

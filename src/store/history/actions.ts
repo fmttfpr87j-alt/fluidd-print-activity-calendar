@@ -6,6 +6,7 @@ import { Globals } from '@/globals'
 import getFilePaths from '@/util/get-file-paths'
 import type { ObjectWithRequest } from '@/plugins/socketClient'
 import { isMoonrakerNotFoundError, isSocketError } from '@/util/is-socket-error'
+import { getPrintActivityStartDate } from '@/util/print-activity'
 
 export const actions = {
   /**
@@ -18,12 +19,41 @@ export const actions = {
   /**
    * Inits moonraker component
    */
-  async init () {
+  async init ({ dispatch, state }) {
     // Get the most recent history items.
     SocketActions.serverHistoryList({ limit: Globals.JOB_HISTORY_LOAD })
 
     // Load the known totals.
     SocketActions.serverHistoryTotals()
+
+    // Refresh an open calendar after reconnecting to Moonraker.
+    if (state.activityLoaded) {
+      try {
+        await dispatch('loadActivityHistory', true)
+      } catch {
+        // Socket errors are surfaced globally; a calendar error must not block init.
+      }
+    }
+  },
+
+  async loadActivityHistory ({ commit, state }, force = false) {
+    if (state.activityLoading || (state.activityLoaded && !force)) return
+
+    const startDate = getPrintActivityStartDate()
+
+    commit('setActivityLoading', true)
+
+    try {
+      await SocketActions.serverHistoryList({
+        limit: 0,
+        since: Math.floor(startDate.getTime() / 1000) - 1,
+        order: 'asc'
+      }, {
+        dispatch: 'history/onActivityHistoryList'
+      })
+    } finally {
+      commit('setActivityLoading', false)
+    }
   },
 
   async fetchMissingJobs ({ commit, state, rootGetters }, payload: string[]) {
@@ -125,6 +155,12 @@ export const actions = {
         .filter(Boolean)
 
       await dispatch('fetchMissingJobs', jobIds)
+    }
+  },
+
+  async onActivityHistoryList ({ commit }, payload: Moonraker.History.ListResponse) {
+    if (payload) {
+      commit('setActivityHistoryList', payload)
     }
   },
 

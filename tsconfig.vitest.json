@@ -12,7 +12,7 @@
 
   "include": [
     "tests/**/*",
-    "src/**/__tests__/*",
+    "src/**/*.ts",
     "src/typings/*.d.ts",
     "tshelpers.d.ts",
     "env.d.ts",

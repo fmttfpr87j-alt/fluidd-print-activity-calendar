@@ -696,6 +696,15 @@ app:
     tooltip:
       help: Only the most recent jobs are loaded on connect. Use Load all to
         fetch the complete history.
+  print_activity:
+    calendar_label: Print activity over the last year
+    completed: Completed
+    filament: Filament
+    help: Color intensity represents total print time per day.
+    job_count: '{count} print job | {count} print jobs'
+    print_time: Print time
+    title: Print activity
+    unsuccessful: Unsuccessful
   job_queue:
     msg:
       confirm: Are you sure? This will clear the entire printer queue

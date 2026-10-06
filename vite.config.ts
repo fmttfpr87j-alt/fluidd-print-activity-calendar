@@ -100,7 +100,7 @@ export default defineConfig({
       }
     }),
     Components({
-      dts: true,
+      dts: process.env.VITEST !== 'true',
       dirs: [
         'src/components/common',
         'src/components/layout',

@@ -3,6 +3,9 @@ import type { HistoryState } from './types'
 export const createState = (): HistoryState => {
   return {
     jobs: [],
+    activityJobs: [],
+    activityLoaded: false,
+    activityLoading: false,
     unresolvedJobIds: new Set(),
     allLoaded: false,
     job_totals: {

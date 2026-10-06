@@ -32,6 +32,15 @@ export const mutations = {
     }
   },
 
+  setActivityHistoryList (state, payload: Moonraker.History.ListResponse) {
+    state.activityJobs = payload.jobs?.map(job => Object.freeze(job)) ?? []
+    state.activityLoaded = true
+  },
+
+  setActivityLoading (state, payload: boolean) {
+    state.activityLoading = payload
+  },
+
   /**
    * Updates a history item.
    */
@@ -46,6 +55,16 @@ export const mutations = {
       }
 
       state.unresolvedJobIds.delete(payload.job_id)
+
+      if (state.activityLoaded) {
+        const activityIndex = state.activityJobs.findIndex(job => job.job_id === payload.job_id)
+
+        if (activityIndex >= 0) {
+          Vue.set(state.activityJobs, activityIndex, Object.freeze(payload))
+        } else {
+          state.activityJobs.push(Object.freeze(payload))
+        }
+      }
     }
   },
 
@@ -63,6 +82,12 @@ export const mutations = {
       }
 
       state.unresolvedJobIds.delete(job.job_id)
+
+      const activityIndex = state.activityJobs.findIndex(({ job_id }) => job_id === job.job_id)
+
+      if (activityIndex >= 0) {
+        Vue.set(state.activityJobs, activityIndex, Object.freeze(job))
+      }
     }
   },
 
@@ -94,6 +119,12 @@ export const mutations = {
         }
 
         state.unresolvedJobIds.add(jobId)
+
+        const activityIndex = state.activityJobs.findIndex(job => job.job_id === jobId)
+
+        if (activityIndex >= 0) {
+          state.activityJobs.splice(activityIndex, 1)
+        }
       }
     }
   },

@@ -55,6 +55,7 @@ import SensorsCard from '@/components/widgets/sensors/SensorsCard.vue'
 import RunoutSensorsCard from '@/components/widgets/runout-sensors/RunoutSensorsCard.vue'
 import BeaconCard from '@/components/widgets/beacon/BeaconCard.vue'
 import AfcCard from '@/components/widgets/afc/AfcCard.vue'
+import PrintActivityCard from '@/components/widgets/history/PrintActivityCard.vue'
 import type Sortable from 'sortablejs'
 
 @Component({
@@ -77,7 +78,8 @@ import type Sortable from 'sortablejs'
     SensorsCard,
     RunoutSensorsCard,
     BeaconCard,
-    AfcCard
+    AfcCard,
+    PrintActivityCard
   }
 })
 export default class Dashboard extends Mixins(StateMixin) {
@@ -152,6 +154,10 @@ export default class Dashboard extends Mixins(StateMixin) {
 
   get supportsAfc (): boolean {
     return this.$typedGetters['printer/getSupportsAfc']
+  }
+
+  get supportsHistory (): boolean {
+    return this.$typedGetters['server/componentSupport']('history')
   }
 
   get hasMacros (): boolean {
@@ -237,6 +243,7 @@ export default class Dashboard extends Mixins(StateMixin) {
     if (item.id === 'sensors-card' && !this.hasSensors) return true
     if (item.id === 'temperature-card' && !this.hasHeatersOrTemperatureSensors) return true
     if (item.id === 'afc-card' && !this.supportsAfc) return true
+    if (item.id === 'print-activity-card' && !this.supportsHistory) return true
 
     // Otherwise return the opposite of whatever the enabled state is.
     return !item.enabled

@@ -2,6 +2,9 @@ import type { AppFileMeta } from '@/store/files/types.metadata'
 
 export interface HistoryState {
   jobs: Readonly<Moonraker.History.Job>[];
+  activityJobs: Readonly<Moonraker.History.Job>[];
+  activityLoaded: boolean;
+  activityLoading: boolean;
   job_totals: Moonraker.History.JobTotals;
   unresolvedJobIds: Set<string>;
   allLoaded: boolean;

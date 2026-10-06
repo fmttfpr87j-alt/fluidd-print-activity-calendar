@@ -1,5 +1,44 @@
 # Fluidd
 
+## Print activity calendar prototype
+
+This feature branch adds an optional dashboard calendar using Moonraker's print
+history. Color intensity shows total print time for each day over the last
+53 weeks.
+
+![Print activity calendar with demonstration data](docs/docs/assets/images/print-activity-calendar.png)
+
+_The screenshot uses synthetic demonstration data: 595 print jobs and
+1,284 hours of print time across a year._
+
+- Daily tooltips with job counts, print time, outcomes, and filament usage.
+- A summary of activity for the displayed period.
+- Collapse, visibility, and position controls in the dashboard layout editor.
+- Theme and locale support, with no additional charting dependency.
+
+The card is disabled by default. Open **Adjust Layout** on the dashboard, enable
+**Print activity**, and place it in the desired column. Moonraker's `history`
+component provides the data.
+
+This branch is based on Fluidd's `develop`. A version of the widget has also been
+tested on a real printer running Fluidd 1.37.6.
+
+### Build this branch
+
+Use the Node.js and pnpm versions specified in `package.json`, then run:
+
+```bash
+pnpm install --frozen-lockfile
+pnpm run build
+```
+
+The generated `dist/` directory contains the web interface. See the
+[development guide](docs/docs/development.md) for local development and
+[printing documentation](docs/docs/features/printing.md#print-activity-calendar)
+for the calendar's behavior.
+
+---
+
 Fluidd is a free and open-source Klipper web interface for managing your 3d printer.
 
 ![Fluidd](/docs/docs/assets/images/preview_sliced.png "Fluidd")
@@ -29,9 +68,9 @@ Please see the [docs](https://docs.fluidd.xyz) for help with installation and co
 
 ## Where to download?
 
-You can download the latest release [here](https://github.com/fluidd-core/fluidd/releases/latest).
+You can download the [latest release](https://github.com/fluidd-core/fluidd/releases/latest).
 
-Older releases can be found [here](https://github.com/fluidd-core/fluidd/releases).
+Browse the [release archive](https://github.com/fluidd-core/fluidd/releases) for older versions.
 
 ## Docker support
 
